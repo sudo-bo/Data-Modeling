@@ -1,0 +1,139 @@
+Medical center:
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table doctor_info {
+  doctor_id integer [primary key]
+  specialization varchar
+  salary integer
+}
+
+Table patient_info {
+  patient_id integer [primary key]
+  name varchar
+  age integer
+}
+
+Table doctor_patient_pairings {
+  doctor_id integer
+  patient_id integer
+}
+
+Table illnesses{
+  illness_id integer [primary key]
+  illness_description text
+}
+
+Table patient_illnesses_pairings {
+  patient_id integer
+  illnesses_id integer
+}
+
+
+Ref: doctor_info.doctor_id > doctor_patient_pairings.doctor_id // many-to-one
+
+Ref: patient_info.patient_id > doctor_patient_pairings.patient_id
+
+Ref: patient_info.patient_id > patient_illnesses_pairings.patient_id
+
+Ref: illnesses.illness_id > patient_illnesses_pairings.illnesses_id
+
+
+
+
+Craiglist posts:
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table user_info {
+  user_id integer [primary key]
+  preferred_region varchar  
+}
+
+Table region {
+  region_id integer [primary key]
+  region_name varchar
+}
+
+Table posts {
+  post_id integer
+  title varchar
+  description text
+  category varchar
+}
+
+Table post_information{
+  post_id integer
+  user_id integer
+  location_id varchar
+}
+
+Ref: region.region_name > user_info.preferred_region
+
+Ref: posts.post_id > post_information.post_id
+
+Ref: user_info.user_id > post_information.user_id
+
+Ref: user_info.preferred_region > post_information.location_id
+
+
+
+
+
+Soccer League:
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table team_info {
+  team_id integer [primary key]
+  team_name varchar
+}
+
+Table player_info {
+  player_id integer [primary key]
+  player_name varchar
+  player_team_id integer
+}
+
+Table referee_info {
+  referee_id integer [primary key]
+  referee_name varchar
+}
+
+Table games {
+  match_id integer [primary key]
+  team_id integer
+  opposing_team_id integer
+  match_score integer // not sure how to do 3-2 (x-y)
+}
+
+Table referees_in_games{
+  match_id integer
+  referee_id integer
+}
+
+Table goals_in_games{
+  match_id integer
+  team_who_scored_id integer
+  player_who_scored_id integer
+}
+
+Ref: team_info.team_id > player_info.player_team_id
+
+Ref: team_info.team_id > games.team_id
+
+Ref: team_info.team_id > games.opposing_team_id
+
+
+Ref: games.match_id > referees_in_games.match_id
+Ref: referee_info.referee_id > referees_in_games.referee_id
+
+Ref: team_info.team_id > goals_in_games.team_who_scored_id
+Ref: games.match_id > goals_in_games.match_id
+Ref: player_info.player_id > goals_in_games.player_who_scored_id
+
+
+
+
+
+
